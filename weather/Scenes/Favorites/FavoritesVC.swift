@@ -8,6 +8,8 @@
 import UIKit
 
 class FavoritesVC: BaseViewController {
+    @IBOutlet weak var locationTf: UITextField!
+    @IBOutlet weak var favouritesTableView: UITableView!
     
     var viewModel: FavoritesVM!
 
@@ -17,9 +19,27 @@ class FavoritesVC: BaseViewController {
         // Do any additional setup after loading the view.
         viewModel = FavoritesVM()
         setupSideMenu()
+        setupForecastTableView()
     }
     
-
+    @IBAction func addTapped(_ sender: Any) {
+        guard let name = locationTf.text else { return }
+        
+        if name.isEmpty { return }
+        
+        self.viewModel.fetchWeatherData(location: name)
+    }
+    
+    private
+    func setupForecastTableView(){
+        self.favouritesTableView.register(FavouriteCell.nib(), forCellReuseIdentifier: FavouriteCell.identifier)
+        
+        viewModel.favouritesList.bind(to: favouritesTableView.rx.items(cellIdentifier: "FavouriteCell", cellType: FavouriteCell.self)) { (row,item,cell) in
+            cell.configureCell(model: item)
+        }.disposed(by: disposeBag)
+    }
+    
+    
     /*
     // MARK: - Navigation
 

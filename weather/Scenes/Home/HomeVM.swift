@@ -42,9 +42,17 @@ class HomeVM: BaseViewModel {
     
     ///fetches the weather Response Data
     func fetchWeatherData(location: String){
-        let urlString = "http://api.weatherapi.com/v1/forecast.json?key=5ad74232f593458f8ce142136251702&q=\(location)&days=7&aqi=no&alerts=no"
+        let urlString = "http://api.weatherapi.com/v1/forecast.json"
         
-        NetworkManager.shared.fetchData(from: urlString, method: .get)
+        let queryParams: [String: String] = [
+            "key": "5ad74232f593458f8ce142136251702",
+            "q": "\(location)",
+            "days": "7",
+            "aqi": "no",
+            "alerts": "no"
+        ]
+        
+        NetworkManager.shared.fetchData(from: urlString, method: .get, queryParams: queryParams)
             .subscribe(onSuccess: { [weak self] (weatherResponse: WeatherResponseModel) in
                 var weatherArray: [ForecastModel] = []
                 //Todays weather

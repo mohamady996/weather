@@ -28,4 +28,14 @@ class BaseViewModel{
     func getStringFromUserDefaults(name: savedObjects) -> String? {
         return UserDefaults.standard.string(forKey: name.rawValue)
     }
+    
+    ///saves String Array in the UserDefaults
+    func saveStringArrayToUserDefaults(value: [String], name: savedObjects) {
+        UserDefaults.standard.set(value, forKey: name.rawValue)
+    }
+    
+    ///retrieves String from UserDefaults
+    func getStringArrayFromUserDefaults(name: savedObjects) -> [String]? {
+        return UserDefaults.standard.stringArray(forKey: name.rawValue)
+    }
 }
