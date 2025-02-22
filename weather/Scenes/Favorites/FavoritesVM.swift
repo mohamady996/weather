@@ -14,6 +14,16 @@ class FavoritesVM: BaseViewModel{
     private let bag = DisposeBag()
     var favouritesList = BehaviorSubject<[FavouriteModel]>(value: [])
     
+    override init() {
+        super.init()
+        
+        let arr = getStringArrayFromUserDefaults(name: .favorityCityArray)
+        
+        for item in arr ?? [] {
+            fetchWeatherData(location: item)
+        }
+    }
+    
     ///fetches the weather Response Data
     func fetchWeatherData(location: String){
         let urlString = "http://api.weatherapi.com/v1/current.json"
