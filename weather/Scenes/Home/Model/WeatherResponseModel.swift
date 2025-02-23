@@ -24,7 +24,7 @@ struct Current: Codable {
     let windMph, windKph: Double?
     let windDegree: Int?
     let windDir: String?
-    let humidity: Int?
+    let humidity: Double?
     
     enum CodingKeys: String, CodingKey {
         case lastUpdated = "last_updated"
@@ -59,7 +59,7 @@ struct Forecastday: Codable {
 // MARK: - Day
 struct Day: Codable {
     let avgtempC, avgtempF, maxwindMph, maxwindKph: Double?
-    let avghumidity: Int?
+    let avghumidity: Double?
     let condition: Condition?
     
     enum CodingKeys: String, CodingKey {

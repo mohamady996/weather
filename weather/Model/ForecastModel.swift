@@ -13,7 +13,7 @@ struct ForecastModel{
     let condition: String?
     let conditionIconURL: String?
     let windKph: Double?
-    let humidity: Int?
+    let humidity: Double?
     
     init(from model: Current){
         date = convertDateFormater(date: model.lastUpdated ?? "", from: "yyyy-MM-dd HH:mm" )

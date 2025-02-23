@@ -33,10 +33,20 @@ class FavoritesVC: BaseViewController {
     private
     func setupForecastTableView(){
         self.favouritesTableView.register(FavouriteCell.nib(), forCellReuseIdentifier: FavouriteCell.identifier)
+//        favouritesTableView.dataSource = self
         
         viewModel.favouritesList.bind(to: favouritesTableView.rx.items(cellIdentifier: "FavouriteCell", cellType: FavouriteCell.self)) { (row,item,cell) in
             cell.configureCell(model: item)
         }.disposed(by: disposeBag)
+        
+        
+        favouritesTableView.rx.itemDeleted
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let self = self else { return }
+                
+                print("deleted: \(indexPath.row)")
+                self.viewModel.removeFavourite(at: indexPath.row)
+        }).disposed(by: disposeBag)
     }
     
     

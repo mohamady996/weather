@@ -65,6 +65,23 @@ class FavoritesVM: BaseViewModel{
         print(arr ?? [])
         self.saveStringArrayToUserDefaults(value: arr ?? [], name: .favorityCityArray)
     }
+    
+    ///removes this item from the favourites list
+    func removeFavourite(at index: Int){
+        //removes the item from the tableview
+        var list = try? favouritesList.value()
+        
+        let location = list?.remove(at: index).location ?? ""
+        favouritesList.onNext(list ?? [])
+        
+        
+        //removes the item from the favourites list
+        var arr = self.getStringArrayFromUserDefaults(name: .favorityCityArray)
+        let index2 = arr?.firstIndex(of: (location)) ?? 0
+        arr?.remove(at: index2 )
+        self.saveStringArrayToUserDefaults(value: arr ?? [], name: .favorityCityArray)
+        
+    }
 
     
 }
