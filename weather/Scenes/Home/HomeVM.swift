@@ -16,9 +16,11 @@ class HomeVM: BaseViewModel {
     var searchArray = BehaviorSubject<[SearchResponseModelElement]>(value: [])
 
     private let bag = DisposeBag()
+    private let networkService: NetworkServiceProtocol
 
         
-    override init() {
+    init(networkService: NetworkServiceProtocol = NetworkManager.shared) {
+        self.networkService = networkService
         super.init()
         
         //checks if a default city is set or not,
@@ -52,7 +54,11 @@ class HomeVM: BaseViewModel {
             "alerts": "no"
         ]
         
-        NetworkManager.shared.fetchData(from: urlString, method: .get, queryParams: queryParams)
+        networkService.fetchData(from: urlString,
+                                 method: .get,
+                                 parameters: nil,
+                                 headers: nil,
+                                 queryParams: queryParams)
             .subscribe(onSuccess: { [weak self] (weatherResponse: WeatherResponseModel) in
                 var weatherArray: [ForecastModel] = []
                 //Todays weather

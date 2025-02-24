@@ -9,13 +9,21 @@ import Foundation
 import Alamofire
 import RxSwift
 
+protocol NetworkServiceProtocol {
+    func fetchData<T: Decodable>(from urlString: String,
+                                 method: HTTPMethod,
+                                 parameters: [String: Any]?,
+                                 headers: [String: String]?,
+                                 queryParams: [String: String]?) -> Single<T>
+}
+
 enum APIError: Error {
     case invalidURL
     case requestFailed
     case decodingError
 }
 
-class NetworkManager {
+class NetworkManager: NetworkServiceProtocol {
     static let shared = NetworkManager()
     private init() {}
 

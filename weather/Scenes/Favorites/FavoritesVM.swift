@@ -14,7 +14,11 @@ class FavoritesVM: BaseViewModel{
     private let bag = DisposeBag()
     var favouritesList = BehaviorSubject<[FavouriteModel]>(value: [])
     
-    override init() {
+    private let networkService: NetworkServiceProtocol
+
+    
+    init(networkService: NetworkServiceProtocol = NetworkManager.shared) {
+        self.networkService = networkService
         super.init()
         
         let arr = getStringArrayFromUserDefaults(name: .favorityCityArray)
@@ -34,8 +38,12 @@ class FavoritesVM: BaseViewModel{
             "aqi": "no"
         ]
         
-        NetworkManager.shared.fetchData(from: urlString, method: .get, queryParams: queryParams)
-            .subscribe(onSuccess: { [weak self] (favouriteResponse: FavoriteResponseModel) in
+        networkService.fetchData(from: urlString,
+                                         method: .get,
+                                         parameters: nil,
+                                         headers: nil,
+                                         queryParams: queryParams)
+        .subscribe(onSuccess: { [weak self] (favouriteResponse: FavoriteResponseModel) in
                 self?.parseFavouriteResponse(favouriteResponse: favouriteResponse)
             }, onFailure: { [weak self] apiError in
 //                self?.favouritesList.onNext([])
