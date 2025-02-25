@@ -44,7 +44,6 @@ class FavoritesVC: BaseViewController {
             .subscribe(onNext: { [weak self] indexPath in
                 guard let self = self else { return }
                 
-                print("deleted: \(indexPath.row)")
                 self.viewModel.removeFavourite(at: indexPath.row)
         }).disposed(by: disposeBag)
     }

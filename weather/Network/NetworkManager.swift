@@ -54,7 +54,7 @@ class NetworkManager: NetworkServiceProtocol {
                 .validate(statusCode: 200...500)
 //                .responseJSON { response in
                 .responseDecodable(of: T.self) { response in
-                    print("\n\nNetwork Response: \(response)\n\n")
+//                    print("\n\nNetwork Response: \(response)\n\n")
                     switch response.result {
                     case .success(let data):
                         single(.success(data))

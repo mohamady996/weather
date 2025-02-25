@@ -22,7 +22,7 @@ class FavoritesVM: BaseViewModel{
         super.init()
         
         let arr = getStringArrayFromUserDefaults(name: .favorityCityArray)
-        
+        print(arr)
         for item in arr ?? [] {
             fetchWeatherData(location: item)
         }
@@ -56,7 +56,6 @@ class FavoritesVM: BaseViewModel{
         var favs = try? self.favouritesList.value()
         favs?.append(FavouriteModel(from: favouriteResponse))
         
-        print(favs ?? [])
         self.favouritesList.onNext(favs ?? [])
         
         addCountryToFavouriteArray(location: favouriteResponse.location?.name ?? "")
@@ -70,7 +69,6 @@ class FavoritesVM: BaseViewModel{
         if (arr?.contains(location) ?? false){return}
         
         arr?.append(location)
-        print(arr ?? [])
         self.saveStringArrayToUserDefaults(value: arr ?? [], name: .favorityCityArray)
     }
     

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ForecastModel{
+struct ForecastModel: Equatable {
     let date: String?
     let tempC, tempF: Double?
     let condition: String?
@@ -15,8 +15,8 @@ struct ForecastModel{
     let windKph: Double?
     let humidity: Double?
     
-    init(from model: Current){
-        date = convertDateFormater(date: model.lastUpdated ?? "", from: "yyyy-MM-dd HH:mm" )
+    init(from model: Current) {
+        date = convertDateFormater(date: model.lastUpdated ?? "", from: "yyyy-MM-dd HH:mm")
         tempC = model.tempC
         tempF = model.tempF
         condition = model.condition?.text
@@ -25,8 +25,8 @@ struct ForecastModel{
         conditionIconURL = "https:\(model.condition?.icon ?? "")"
     }
     
-    init(from model: Forecastday){
-        date = convertDateFormater(date: model.date ?? "", from: "yyyy-MM-dd" )
+    init(from model: Forecastday) {
+        date = convertDateFormater(date: model.date ?? "", from: "yyyy-MM-dd")
         tempC = model.day?.avgtempC
         tempF = model.day?.avgtempF
         condition = model.day?.condition?.text
@@ -35,6 +35,16 @@ struct ForecastModel{
         conditionIconURL = "https:\(model.day?.condition?.icon ?? "")"
     }
     
+    // Implement Equatable
+    static func == (lhs: ForecastModel, rhs: ForecastModel) -> Bool {
+        return lhs.date == rhs.date &&
+        lhs.tempC == rhs.tempC &&
+        lhs.tempF == rhs.tempF &&
+        lhs.condition == rhs.condition &&
+        lhs.conditionIconURL == rhs.conditionIconURL &&
+        lhs.windKph == rhs.windKph &&
+        lhs.humidity == rhs.humidity
+    }
 }
 
 private func convertDateFormater(date: String, from format: String) -> String {

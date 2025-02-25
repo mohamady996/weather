@@ -88,10 +88,19 @@ class HomeVM: BaseViewModel {
         
         let urlString = "http://api.weatherapi.com/v1/search.json?key=5ad74232f593458f8ce142136251702&q=\(search)"
         
-        NetworkManager.shared.fetchData(from: urlString, method: .get)
+        let queryParams: [String: String] = [
+            "key": "5ad74232f593458f8ce142136251702",
+            "q": search
+        ]
+        
+        networkService.fetchData(from: urlString,
+                                 method: .get,
+                                 parameters: nil,
+                                 headers: nil,
+                                 queryParams: queryParams)
             .subscribe(onSuccess: { [weak self] (searchResponse: [SearchResponseModelElement]) in
                 self?.searchArray.onNext(searchResponse)
-            }, onFailure: { [weak self] apiError in
+            }, onFailure: { [weak self] _ in
                 self?.searchArray.onNext([])
             })
             .disposed(by: bag)
@@ -107,7 +116,6 @@ class HomeVM: BaseViewModel {
         if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
            CLLocationManager.authorizationStatus() ==  .authorizedAlways) {
             currentLocation = locManager.location
-            print( "\(currentLocation.coordinate.latitude),\(currentLocation.coordinate.longitude)")
             return "\(currentLocation.coordinate.latitude),\(currentLocation.coordinate.longitude)"
         }
         

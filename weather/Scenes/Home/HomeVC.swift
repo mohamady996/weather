@@ -91,7 +91,6 @@ class HomeVC: BaseViewController {
         // Handle item selection
         searchTableView.rx.modelSelected(SearchResponseModelElement.self)
             .subscribe(onNext: { selectedItem in
-                print("Selected Item: \(selectedItem.name ?? "")")
                 self.viewModel.fetchWeatherData(location: selectedItem.name ?? "")
                 self.searchTableView.isHidden = true
                 self.searchTF.text = selectedItem.name ?? ""
