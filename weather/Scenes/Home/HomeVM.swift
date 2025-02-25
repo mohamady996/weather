@@ -86,7 +86,7 @@ class HomeVM: BaseViewModel {
             return
         }
         
-        let urlString = "http://api.weatherapi.com/v1/search.json?key=5ad74232f593458f8ce142136251702&q=\(search)"
+        let urlString = "http://api.weatherapi.com/v1/search.json"
         
         let queryParams: [String: String] = [
             "key": "5ad74232f593458f8ce142136251702",
